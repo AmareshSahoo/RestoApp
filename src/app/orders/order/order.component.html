@@ -1,0 +1,106 @@
+<form #form="ngForm" autocomplete="off" *ngIf="service.formData" (submit)="onSubmit(form)">
+  <input type="hidden"  name="Order_ID" #Order_ID="ngModel" [(ngModel)]="service.formData.Order_ID" class="form-control">
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="form-group">
+        <label >Order No</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fas fa-edit"></i></div>
+          </div>
+          <input type="text" name="Order_No" #Order_No="ngModel" [(ngModel)]="service.formData.Order_No" class="form-control" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label >Customer</label>
+        <select type="text" name="Customer_ID" #Customer_ID="ngModel" [(ngModel)]="service.formData.Customer_ID" class="form-control"
+        [class.is-invalid]="!IsValid && service.formData.Customer_ID==0" required>
+          <option [ngValue]="null" selected>-Select-</option>
+          <option *ngFor="let item of customerlist" value="{{item.Custome_ID}}">{{item.Name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label >Payment Method</label>
+            <select type="text" name="P_Method" #P_Method="ngModel" [(ngModel)]="service.formData.P_Method" class="form-control">
+              <option value="">-Select-</option>
+              <option value="Cash">Cash</option>
+              <option value="Card">Card</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+          <label >Grand Total</label>
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
+          </div>
+          <input type="text" name="G_Total" #G_Total="ngModel" [(ngModel)]="service.formData.G_Total" class="form-control" readonly>
+        </div>
+        </div>
+    </div>
+  </div>
+<!------------Order Items------------>
+<table class="table table-borderless">
+  <thead class="thead-light text-center">
+    <th>Food</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Total</th>
+    <th>
+      <a  (click)="AddOrEditOrderItem(null,service.formData.Order_ID)" class="btn btn-sm btn-success text-white"><i class="fas fa-plus"></i> Add Item</a>
+    </th>
+  </thead>
+  <tbody>
+    <tr *ngIf="service.orderItems.length==0" [class.text-danger]="!IsValid && service.orderItems.length==0">
+      <td class="font-italic text-center font-weight-bold" colspan="5">
+        No food item selected for this Order.
+      </td>
+    </tr>
+
+    <tr class="text-center" *ngFor="let item of service.orderItems;let i=index">
+      <td>{{ item.ItemName }}</td>
+      <td>{{ item.Price }}</td>
+      <td>{{ item.Quantity }}</td>
+      <td>{{ item.Total }}</td>
+      <td>
+          <a (click)="AddOrEditOrderItem(i,service.formData.Order_ID)" class="btn btn-sm btn-info text-white"><i class="fas fa-pencil-alt"></i></a>
+          <a (click)="onDeleteOrderItem(item.OrderItem_ID,i)" class="btn btn-sm btn-danger ml-1 text-white"><i class="fas fa-trash-alt"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  <div class="form-group">
+    <button type="submit" [disabled]="form.invalid" class="btn btn-info"><i class="fas fa-database"></i> Submit</button>
+    <a class="btn btn-outline-dark ml-1"routerLink="/orders"><i class="fas fa-table"></i> View Orders</a>
+    <button class="btn btn-outline-success ml-1"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i> Add New Customer</button>
+  </div>
+</form>
+<!-- Modal -->
+<form [formGroup]="registerrForm" >
+<div class="modal fade" data-backdrop="false" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <h5 class="mx-auto font-weight-bold font-italic text-info" id="exampleModalLabel">Add New Customer</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <!-- <input type="hidden" formControlName="Customer_ID"> -->
+          <label for="a">Customer Name</label>
+          <input type="text" formControlName="Name" class="form-control" id="a" placeholder="Enter Customer Name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" [disabled]="registerrForm.invalid" (click)="CreateCus(registerrForm.value)" class="btn btn-primary" >Save</button>
+        <button type="button" id="aaa" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

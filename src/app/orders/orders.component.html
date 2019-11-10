@@ -1,0 +1,27 @@
+<table class="table table-hover">
+  <thead class="thead-light text-center">
+    <th>#Order No.</th>
+    <th>Customer</th>
+    <th>Payment Method</th>
+    <th>Grand Total</th>
+    <th>
+      <a class="btn btn-outline-success" routerLink="/order"> <i class="fas fa-plus-square"></i> Create New</a>
+    </th>
+  </thead>
+  <tbody class="text-center">
+      <!-- <tr *ngIf="orderList.length==0">
+          <td class="font-italic font-weight-bold text-center" colspan="5">
+            No Orders Found.
+          </td>
+      </tr> -->
+    <tr *ngFor="let item of orderList">
+      <th (click)="openForEdit(item.Order_ID)">{{item.Order_No}}</th>
+      <td (click)="openForEdit(item.Order_ID)">{{item.Customer}}</td>
+      <td (click)="openForEdit(item.Order_ID)">{{item.P_Method}}</td>
+      <td (click)="openForEdit(item.Order_ID)">{{item.G_Total}}</td>
+      <td>
+        <a class="btn text-danger" (click)= "onItemDelete(item.Order_ID)" > <i class="fas fa-trash-alt fa-lg"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>

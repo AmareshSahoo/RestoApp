@@ -1,0 +1,45 @@
+<h4 class="didplay_4">Order Food Item</h4>
+<hr>
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)" >
+  <input type="hidden" name="OrderItem_ID" #OrderItem_ID="ngModel" [(ngModel)]="formData.OrderItem_ID" >
+  <input type="hidden" name="Order_ID" #Order_ID="ngModel" [(ngModel)]="formData.Order_ID" >
+  <input type="hidden" name="ItemName" #ItemName="ngModel" [(ngModel)]="formData.ItemName" >
+  <div class="from-group">
+    <label for="">Food Item</label>
+    <select type="text" name="Item_ID" #Item_ID="ngModel" [(ngModel)]="formData.Item_ID" class="form-control" (change)="updatePrice($event.target)"
+    [class.is-invalid]="!IsValid && formData.Item_ID==0">
+      <option value="0">-Select-</option>
+      <option *ngFor="let items of ItemList" value="{{items.Item_ID}}">{{items.Name}}</option>
+    </select>
+  </div>
+  <div class="form-row">
+  <div class="form-group col-md-6">
+    <label >Price</label>
+    <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">$</div>
+    </div>
+    <input type="text" name="Price" #Price="ngModel" [(ngModel)]="formData.Price" class="form-control" readonly>
+  </div>
+  </div>
+  <div class="form-group col-md-6">
+    <label >Quantity</label>
+    <input type="text" name="Quantity" #Quantity="ngModel" [(ngModel)]="formData.Quantity" class="form-control"(keyup)="UpdateTotal()"
+    [class.is-invalid]="!IsValid && formData.Quantity==0">
+  </div>
+ </div>
+ <div class="form-group">
+  <label >Total</label>
+  <div class="input-group">
+  <div class="input-group-prepend">
+    <div class="input-group-text">$</div>
+  </div>
+  <input type="text" name="Total" #Total="ngModel" [(ngModel)]="formData.Total" class="form-control" readonly>
+</div>
+</div>
+
+<div class="form-group">
+  <button type="submit" class="btn btn-dark" > <i class="fas fa-database"></i> Submit</button>
+  <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]="true" ><i class="fas fa-times"></i> Close</button>
+</div>
+</form>
